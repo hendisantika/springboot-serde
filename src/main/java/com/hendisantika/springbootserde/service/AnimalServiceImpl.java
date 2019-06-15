@@ -5,9 +5,7 @@ import com.hendisantika.springbootserde.model.SerializedAnimal;
 import com.hendisantika.springbootserde.repository.SerializedAnimalRepo;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,6 +49,25 @@ public class AnimalServiceImpl implements AnimalService {
             e.printStackTrace();
         } finally {
             objectOutputStream.close();
+        }
+
+        return null;
+    }
+
+    private Animal deserialize(byte[] serializedAnimal) throws IOException, ClassNotFoundException {
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(serializedAnimal);
+        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        try {
+
+            Animal animal = (Animal) objectInputStream.readObject();
+
+            return animal;
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            objectInputStream.close();
         }
 
         return null;
