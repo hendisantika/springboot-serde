@@ -48,3 +48,12 @@
     
     }
     ```
+## Screen shot
+
+* **Post new data**
+
+![Post new Data](img/add.png)
+
+* **Get all data**
+
+![Get Data](img/get.png)
