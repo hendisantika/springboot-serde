@@ -6,6 +6,8 @@ import com.hendisantika.springbootserde.repository.SerializedAnimalRepo;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +34,23 @@ public class AnimalServiceImpl implements AnimalService {
         SerializedAnimal serializedAnimal = new SerializedAnimal(serializedAnimalByteArr);
 
         this.serializedAnimalRepo.save(serializedAnimal);
+
+    }
+
+    @Override
+    public List<Animal> getAnimals() throws Exception {
+        return serializedAnimalRepo.findAll().stream().map(serializedAnimal -> {
+            try {
+                return deserialize(serializedAnimal.getSerializedAnimal());
+            } catch (ClassNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
 
     }
 
